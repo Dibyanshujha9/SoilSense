@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Upload, Leaf, Droplets, Thermometer, BarChart3, FileCheck, Tractor } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-function App() {
+function App() { 
   const [step, setStep] = useState(1);
   const [image, setImage] = useState<string | null>(null);
   const [fieldSize, setFieldSize] = useState<number>(1);
@@ -12,6 +13,8 @@ function App() {
     quantity: number;
     totalQuantity: number;
   } | null>(null);
+
+  const navigate = useNavigate();
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -67,7 +70,14 @@ function App() {
     setStep(1);
   };
 
+  const handleScientistViewClick = () => {
+    navigate('/admin');
+  };
+
   return (
+    // Added Fragment for the button outside the main div
+    <>
+    {/* Existing main content */}
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
       <header className="bg-white shadow-sm">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center">
@@ -327,6 +337,14 @@ function App() {
         </div>
       </footer>
     </div>
+
+    {/* Added button for Scientist View */}
+    <button
+        className="fixed bottom-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+        onClick={handleScientistViewClick}>
+        Scientist View
+      </button>
+      </>
   );
 }
 
