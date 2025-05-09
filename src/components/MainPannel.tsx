@@ -9,6 +9,7 @@ import {
   useNavigate,
   useLocation
 } from 'react-router-dom';
+// import Uielement from './UiElement';
 import Footer from './Footer'; // Import the Footer component
 
 // Dummy AdminPannel for routing
@@ -207,6 +208,7 @@ function MainApp() {
           )}
         </div>
       </main>
+      {/* <Uielement /> */}
       <Footer /> {/* Add the Footer component here */}
     </div>
   );
