@@ -170,7 +170,7 @@ function MainApp() {
                     onChange={handleFieldSizeChange}
                     className="w-full border px-4 py-2 rounded focus:ring-green-500 focus:border-green-500"
                   />
-                  <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-500">ha</div>
+                  <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-500">hectares</div>
                 </div>
               </div>
               <div className="flex justify-between">
@@ -193,8 +193,8 @@ function MainApp() {
               <h2 className="text-xl font-semibold">Analysis Results</h2>
               <p className="text-gray-600">Deficiency: <strong>{results.deficiency}</strong></p>
               <p className="text-gray-600">Recommended Fertilizer: <strong>{results.fertilizer}</strong></p>
-              <p className="text-gray-600">Quantity per hectare: <strong>{results.quantity} kg/ha</strong></p>
-              <p className="text-gray-600">Total Quantity for {fieldSize} ha: <strong>{results.totalQuantity} kg</strong></p>
+              <p className="text-gray-600">Quantity per hectare: <strong>{results.quantity} kg/hectares</strong></p>
+              <p className="text-gray-600">Total Quantity for {fieldSize} hectares: <strong>{results.totalQuantity} kg</strong></p>
 
               <div className="flex justify-center gap-4 mt-6">
                 <button onClick={resetAnalysis} className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">

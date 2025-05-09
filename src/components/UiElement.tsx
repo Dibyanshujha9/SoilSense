@@ -122,7 +122,7 @@ const UiElement: React.FC = () => {
               {
                 title: "Scan Your Soil",
                 icon: <FlaskConical size={48} className="text-green-300" />,
-                description: "Take a soil sample and scan it with your smartphone camera or upload lab results."
+                description: "Take a soil sample and scan it with your smartphone camera."
               },
               {
                 title: "AI Analysis",
@@ -176,7 +176,7 @@ const UiElement: React.FC = () => {
             {[
               {
                 title: "Precision Analysis",
-                description: "Our AI delivers 98.7% accurate NPK readings compared to traditional lab tests."
+                description: "Our AI delivers 97% accurate NPK readings compared to traditional lab tests."
               },
               {
                 title: "Real-time Results",
@@ -221,7 +221,7 @@ const UiElement: React.FC = () => {
                 Experience our cutting-edge 3D soil visualization technology that breaks down your soil composition and identifies deficiencies with precision.
               </p>
               <ul className="space-y-4 mb-8">
-                {["Nitrogen (N) Detection", "Phosphorus (P) Measurement", "Potassium (K) Analysis", "pH Level Assessment"].map((item, index) => (
+                {["Nitrogen (N) Detection", "Phosphorus (P) Measurement", "Potassium (K) Analysis"].map((item, index) => (
                   <li key={index} className="flex items-center gap-3">
                     <div className="w-2 h-2 rounded-full bg-green-400"></div>
                     <span className="text-green-100">{item}</span>
@@ -263,19 +263,19 @@ const UiElement: React.FC = () => {
                 <div className="absolute top-6 right-6 bg-black/50 backdrop-blur-md px-4 py-2 rounded-lg border border-green-500/30">
                   <div className="text-xs flex items-center gap-2">
                     <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                    <span className="text-blue-300">N: 14.3%</span>
+                    <span className="text-blue-300">Nitrogen</span>
                   </div>
                 </div>
                 <div className="absolute bottom-6 left-6 bg-black/50 backdrop-blur-md px-4 py-2 rounded-lg border border-green-500/30">
                   <div className="text-xs flex items-center gap-2">
                     <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-                    <span className="text-red-300">P: 8.7%</span>
+                    <span className="text-red-300">Potassium</span>
                   </div>
                 </div>
                 <div className="absolute bottom-6 right-6 bg-black/50 backdrop-blur-md px-4 py-2 rounded-lg border border-green-500/30">
                   <div className="text-xs flex items-center gap-2">
                     <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
-                    <span className="text-purple-300">K: 11.2%</span>
+                    <span className="text-purple-300">Phosphorus</span>
                   </div>
                 </div>
               </div>

@@ -18,14 +18,14 @@ interface AnalysisResults {
 interface SoilData {
   id: number;
   soilType: string;
-  pH: number;
-  moistureLevel: number;
+  // pH: number;
+  // moistureLevel: number;
 }
 
 const standardSoilData: StandardSoilData[] = [
-  { parameter: 'pH Level', optimalRange: '6.0 - 7.5' },
+  // { parameter: 'pH Level', optimalRange: '6.0 - 7.5' },
   { parameter: 'Nutrient Balance', optimalRange: 'Balanced (adequate N, P, K)' },
-  { parameter: 'Moisture Level', optimalRange: 'Optimal for crop type' },
+  // { parameter: 'Moisture Level', optimalRange: 'Optimal for crop type' },
 ];
 
 const AdminPanel: React.FC = () => {
