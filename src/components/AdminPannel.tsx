@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 
-import Footer from './Footer';
+import Footer from '../components/Footer';
 interface StandardSoilData {
   parameter: string;
   optimalRange: string;
