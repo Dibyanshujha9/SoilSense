@@ -1,3 +1,5 @@
+
+
 import React, { useState, useRef } from 'react';
 import { getWeather, searchCities } from './weatherBot';
 
@@ -15,6 +17,16 @@ interface ForecastDay {
   wind_kph: number;
 }
 
+// Define types for fertilizer recommendations
+type FertilizerSuitability = 'Not ideal' | 'Ideal range' | 'Still acceptable' | 'Risk of runoff';
+
+interface RainSummary {
+  totalProbability: number;
+  condition: string;
+  suitability: FertilizerSuitability;
+  icon: string; // ⚠️, ✅, ❌
+}
+
 const WeatherChatbot: React.FC = () => {
   // State for input fields and displayed information
   const [city, setCity] = useState('');
@@ -23,6 +35,44 @@ const WeatherChatbot: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [forecast, setForecast] = useState<ForecastDay[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [rainSummary, setRainSummary] = useState<RainSummary | null>(null);
+
+  // Function to calculate rain summary based on 5-day forecast
+  const calculateRainSummary = (forecastData: ForecastDay[]): RainSummary => {
+    // Calculate total rain probability across all days
+    const totalProbability = forecastData.reduce((sum, day) => 
+      sum + day.daily_chance_of_rain, 0) / forecastData.length;
+    
+    // Determine condition and suitability based on total probability
+    let condition: string;
+    let suitability: FertilizerSuitability;
+    let icon: string;
+    
+    if (totalProbability <= 20) {
+      condition = 'Very dry, may need manual watering';
+      suitability = 'Not ideal';
+      icon = '⚠️';
+    } else if (totalProbability <= 50) {
+      condition = 'Slight to moderate rain possible (light showers)';
+      suitability = 'Ideal range';
+      icon = '✅';
+    } else if (totalProbability <= 70) {
+      condition = 'Frequent moisture but low risk of runoff';
+      suitability = 'Still acceptable';
+      icon = '⚠️';
+    } else {
+      condition = 'High chance of heavy rain or storm-like conditions';
+      suitability = 'Risk of runoff';
+      icon = '❌';
+    }
+    
+    return {
+      totalProbability,
+      condition,
+      suitability,
+      icon
+    };
+  };
 
   // Function to fetch weather data
   const handleFetchWeather = async () => {
@@ -34,12 +84,15 @@ const WeatherChatbot: React.FC = () => {
     setLoading(true);
     setError(null);
     setForecast(null);
+    setRainSummary(null);
 
     try {
       const weatherData = await getWeather(city);
 
       if (weatherData && weatherData.length > 0) {
         setForecast(weatherData);
+        // Calculate and set rain summary
+        setRainSummary(calculateRainSummary(weatherData));
       } else {
         setError('Location not found or no forecast data available.');
         setForecast(null);
@@ -174,6 +227,15 @@ const WeatherChatbot: React.FC = () => {
     boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
   };
 
+  const rainSummaryStyle: React.CSSProperties = {
+    padding: '15px',
+    marginBottom: '20px',
+    backgroundColor: '#fff',
+    borderRadius: '6px',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+    borderLeft: '4px solid #007bff',
+  };
+
   const handleSuggestionClick = (suggestion: { name: string; country: string }) => {
     setCity(suggestion.name);
     setCitySuggestions([]);
@@ -213,6 +275,21 @@ const WeatherChatbot: React.FC = () => {
       {error && (
         <div style={errorStyle}>
           <p>{error}</p>
+        </div>
+      )}
+      
+      {rainSummary && (
+        <div style={rainSummaryStyle}>
+          <h3>Fertilizer Recommendation</h3>
+          <p>
+            <strong>5-Day Rain Probability:</strong> {rainSummary.totalProbability.toFixed(1)}%
+          </p>
+          <p>
+            <strong>Condition:</strong> {rainSummary.condition}
+          </p>
+          <p>
+            <strong>Fertilizer Suitability:</strong> {rainSummary.icon} {rainSummary.suitability}
+          </p>
         </div>
       )}
       
@@ -257,6 +334,3 @@ const WeatherChatbot: React.FC = () => {
 };
 
 export default WeatherChatbot;
-
-
-
