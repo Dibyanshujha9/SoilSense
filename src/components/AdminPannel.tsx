@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
@@ -21,6 +22,7 @@ interface SoilData {
   pH: number;
   moistureLevel: number;
 }
+import WeatherChatbot from '../../chatbot/WeatherChatbot';
 
 const standardSoilData: StandardSoilData[] = [
   // { parameter: 'pH Level', optimalRange: '6.0 - 7.5' },
@@ -208,6 +210,7 @@ const AdminPanel: React.FC = () => {
               These readings indicate generally favorable conditions for most crop varieties with some localized adjustments recommended.
             </p>
           </div> */}
+          < WeatherChatbot/>
         </div>
       </div>
 
