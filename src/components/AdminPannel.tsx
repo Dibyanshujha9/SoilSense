@@ -11,15 +11,15 @@ interface StandardSoilData {
 interface AnalysisResults {
   deficiency: string;
   fertilizer: string;
+  recommendation: string;
   quantity: number;
-  totalQuantity: number;
 }
 
 interface SoilData {
   id: number;
   soilType: string;
-  // pH: number;
-  // moistureLevel: number;
+  pH: number;
+  moistureLevel: number;
 }
 
 const standardSoilData: StandardSoilData[] = [
@@ -141,16 +141,16 @@ const AdminPanel: React.FC = () => {
                       <td className="py-2 px-3 text-gray-800 text-sm">{results.deficiency}</td>
                     </tr>
                     <tr>
-                      <td className="py-2 px-3 text-gray-800 text-sm">Recommended Fertilizer</td>
-                      <td className="py-2 px-3 text-gray-800 text-sm">{results.fertilizer}</td>
+                      {/* <td className="py-2 px-3 text-gray-800 text-sm">Recommended Fertilizer</td> */}
+                      {/* <td className="py-2 px-3 text-gray-800 text-sm">{results.fertilizer}</td> */}
                     </tr>
                     <tr>
-                      <td className="py-2 px-3 text-gray-800 text-sm">Fertilizer Quantity (per hectare)</td>
-                      <td className="py-2 px-3 text-gray-800 text-sm">{results.quantity.toFixed(2)} kg/ha</td>
+                      <td className="py-2 px-3 text-gray-800 text-sm">Recommendation Fertilizer</td>
+                      <td className="py-2 px-3 text-gray-800 text-sm">{results.recommendation || 'No specific recommendation'}</td>
                     </tr>
                     <tr>
-                      <td className="py-2 px-3 text-gray-800 text-sm">Total Recommended Quantity</td>
-                      <td className="py-2 px-3 text-gray-800 text-sm">{results.totalQuantity.toFixed(2)} kg</td>
+                      {/* <td className="py-2 px-3 text-gray-800 text-sm">Fertilizer Quantity</td>
+                      <td className="py-2 px-3 text-gray-800 text-sm">{results.quantity.toFixed(2)} kg/ha</td> */}
                     </tr>
                   </tbody>
                 </table>
@@ -197,7 +197,7 @@ const AdminPanel: React.FC = () => {
           </div>
 
           {/* Scientific Analysis Summary */}
-          <div className="mt-8 bg-blue-50 p-4 rounded-lg">
+          {/* <div className="mt-8 bg-blue-50 p-4 rounded-lg">
             <h3 className="font-medium text-gray-800 mb-2">Scientific Analysis</h3>
             <p className="text-gray-700">
               Based on the collected soil data, we observe an average pH level of {
@@ -207,7 +207,7 @@ const AdminPanel: React.FC = () => {
               }%. 
               These readings indicate generally favorable conditions for most crop varieties with some localized adjustments recommended.
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
 
