@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react';
 import {
   Upload, Leaf
@@ -32,13 +34,12 @@ const AdminPannel = () => {
 function MainApp() {
   const [step, setStep] = useState(1);
   const [image, setImage] = useState<string | null>(null);
-  const [fieldSize, setFieldSize] = useState<number>(1);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<{
     deficiency: string;
     fertilizer: string;
+    recommendation: string;
     quantity: number;
-    totalQuantity: number;
   } | null>(null);
 
   const navigate = useNavigate();
@@ -54,42 +55,48 @@ function MainApp() {
     }
   };
 
-  const handleFieldSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFieldSize(parseFloat(e.target.value));
-  };
-
-  const analyzeImage = () => {
+  const analyzeImage = async () => {
     setLoading(true);
-    setTimeout(() => {
-      const deficiencyTypes = ['Nitrogen Deficient', 'Phosphorus Deficient', 'Potassium Deficient', 'Balanced'];
-      const deficiency = deficiencyTypes[Math.floor(Math.random() * deficiencyTypes.length)];
-      const fertilizerMap: Record<string, string> = {
-        'Nitrogen Deficient': 'Urea',
-        'Phosphorus Deficient': 'Superphosphate',
-        'Potassium Deficient': 'Potassium Chloride',
-        'Balanced': 'NPK Blend'
-      };
 
-      const fertilizer = fertilizerMap[deficiency];
-      const quantity = 120 + Math.random() * 50;
-      const totalQuantity = quantity * fieldSize;
+    if (!image) {
+      console.error("No image to analyze.");
+      setLoading(false);
+      return;
+    }
 
-      const resultData = {
-        deficiency,
-        fertilizer,
-        quantity: Math.round(quantity),
-        totalQuantity: Math.round(totalQuantity)
-      };
+    try {
+      // Convert data URL to Blob
+      const response = await fetch(image);
+      const blob = await response.blob();
+      const file = new File([blob], "soil_image.png", { type: blob.type });
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const apiResponse = await fetch('http://localhost:8000/analyze/', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!apiResponse.ok) {
+        throw new Error(`HTTP error! status: ${apiResponse.status}`);
+      }
+
+      const data = await apiResponse.json();
+
+      const resultData = { ...data, quantity: 150 }; // Using a placeholder quantity
 
       setResults(resultData);
-      setLoading(false);
       setStep(3);
-    }, 2000);
+    } catch (error) {
+      console.error("Error analyzing image:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const resetAnalysis = () => {
+  const resetAnalysis = () => { // This should be async too if it involves API calls later
     setImage(null);
-    setFieldSize(1);
     setResults(null);
     setStep(1);
   };
@@ -118,7 +125,7 @@ function MainApp() {
                   {n}
                 </div>
                 <span className="ml-2 font-medium">
-                  {n === 1 ? 'Upload' : n === 2 ? 'Field Info' : 'Results'}
+                  {n === 1 ? 'Upload' : n === 2 ? 'Analyze' : 'Results'}
                 </span>
               </div>
               {n < 3 && <div className={`w-12 h-1 mx-2 ${step > n ? 'bg-green-600' : 'bg-gray-300'}`} />}
@@ -158,21 +165,7 @@ function MainApp() {
 
           {step === 2 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-semibold text-center">Field Information</h2>
-              <div className="max-w-md mx-auto">
-                <label htmlFor="field-size" className="block text-sm font-medium mb-1">Field Size (hectares)</label>
-                <div className="relative">
-                  <input
-                    id="field-size"
-                    type="number"
-                    min="0.1"
-                    value={fieldSize}
-                    onChange={handleFieldSizeChange}
-                    className="w-full border px-4 py-2 rounded focus:ring-green-500 focus:border-green-500"
-                  />
-                  <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-500">hectares</div>
-                </div>
-              </div>
+              <h2 className="text-xl font-semibold text-center">Ready to Analyze</h2>
               <div className="flex justify-between">
                 <button onClick={() => setStep(1)} className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">
                   Back
@@ -192,16 +185,16 @@ function MainApp() {
             <div className="text-center space-y-4">
               <h2 className="text-xl font-semibold">Analysis Results</h2>
               <p className="text-gray-600">Deficiency: <strong>{results.deficiency}</strong></p>
-              <p className="text-gray-600">Recommended Fertilizer: <strong>{results.fertilizer}</strong></p>
-              <p className="text-gray-600">Quantity per hectare: <strong>{results.quantity} kg/hectares</strong></p>
-              <p className="text-gray-600">Total Quantity for {fieldSize} hectares: <strong>{results.totalQuantity} kg</strong></p>
+              {/* <p className="text-gray-600">Recommended Fertilizer: <strong>{results.fertilizer}</strong></p> */}
+              <p className="text-gray-600">Recommendation Fertilizer: <strong>{results.recommendation || 'No specific recommendation'}</strong></p>
+              {/* <p className="text-gray-600">Recommended Quantity: <strong>{results.quantity} kg/hectare</strong></p> */}
 
               <div className="flex justify-center gap-4 mt-6">
                 <button onClick={resetAnalysis} className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">
                   Start Over
                 </button>
                 <button onClick={handleScientistViewClick} className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
-                  Scientist View
+                Expert analysis
                 </button>
               </div>
             </div>
