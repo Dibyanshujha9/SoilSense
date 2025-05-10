@@ -182,7 +182,7 @@ const WeatherChatbot: React.FC = () => {
 
   return (
     <div style={containerStyle}>
-      <h2>Weather Chatbot</h2>
+      <h2>Climate Forecast</h2>
       <div style={inputGroupStyle}>
         <label htmlFor="city" style={labelStyle}>Enter City:</label>
         <input 
@@ -257,3 +257,6 @@ const WeatherChatbot: React.FC = () => {
 };
 
 export default WeatherChatbot;
+
+
+
