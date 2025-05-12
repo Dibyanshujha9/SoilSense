@@ -1,7 +1,1 @@
-**Explanation:**
-
-*   `/*`: This is a wildcard that matches all incoming requests to your site.
-*   `/index.html`: This tells Netlify to serve your `index.html` file for any request that doesn't match an existing file.
-*   `200`: This is the HTTP status code. It indicates that the request is handled successfully by serving the specified file (`index.html`).
-
-This redirect rule is crucial for client-side routing. When your React application handles routing using libraries like `react-router-dom`, the browser requests different URLs (e.g., `/admin`, `/report`). Without this redirect, Netlify might return a 404 error because those paths don't correspond to physical files on the server. The `_redirects` file ensures that Netlify always serves `index.html`, allowing your React router to take over and render the correct component based on the URL.
+/*    /index.html   200
