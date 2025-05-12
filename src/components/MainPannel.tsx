@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import {
   Upload, Leaf
@@ -73,7 +71,8 @@ function MainApp() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const apiResponse = await fetch('http://localhost:8000/analyze/', {
+      // const apiResponse = await fetch('http://localhost:8000/analyze/', {
+            const apiResponse = await fetch('https://soilsense-fastapi-mlmodel-2.onrender.com/analyze/', {
         method: 'POST',
         body: formData,
       });

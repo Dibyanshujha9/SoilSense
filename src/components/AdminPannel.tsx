@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
-
+import DownloadReportButton from '../components/Report'
 import Footer from '../components/Footer';
+
 interface StandardSoilData {
   parameter: string;
   optimalRange: string;
@@ -213,7 +214,7 @@ const AdminPanel: React.FC = () => {
           < WeatherChatbot/>
         </div>
       </div>
-
+      <DownloadReportButton />
       <Footer />
     </div>
   );
